@@ -1,3 +1,4 @@
+// src/app/page.tsx
 import { createClient } from '@/lib/supabase-server'
 import Header from '@/components/Header'
 import PathCard from '@/components/PathCard'
@@ -27,32 +28,35 @@ export default async function Home() {
   })) || []
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-black transition-colors duration-500">
       <Header />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
+
+      <main className="container mx-auto px-4 py-12">
+        {/* Hero */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
             Master Your Tech Journey
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Curated learning paths to guide you from beginner to expert in modern technologies
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto mb-12">
+        {/* Search */}
+        <div className="max-w-2xl mx-auto mb-16">
           <SearchBar />
         </div>
 
+        {/* Grid */}
         {normalizedPaths.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {normalizedPaths.map((path) => (
               <PathCard key={path.id} path={path} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No learning paths found.</p>
+          <div className="text-center py-20">
+            <p className="text-lg text-gray-500 dark:text-gray-400">No learning paths found.</p>
           </div>
         )}
       </main>
