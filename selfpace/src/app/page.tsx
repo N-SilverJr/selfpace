@@ -1,59 +1,61 @@
-// src/app/page.tsx
-import { createClient } from '@/lib/supabase';
-import Header from '../components/Header';
-import PathCard from '../components/PathCard';
-import SearchBar from '../components/SearchBar';
+import { createClient } from '@/lib/supabase-server'
+import Header from '@/components/Header'
+import PathCard from '@/components/PathCard'
+import SearchBar from '@/components/SearchBar'
 
-export const revalidate = 60; // Refresh data every minute
+export const revalidate = 60
 
 export default async function Home() {
-  const supabase = createClient();
-  const { data: paths } = await supabase
+  const supabase = await createClient()
+
+  const { data: paths, error } = await supabase
     .from('paths')
     .select('*')
     .order('featured', { ascending: false })
-    .order('title');
+    .order('title')
 
-  // Normalize nullable fields from Supabase to match the 'Path' type (convert null -> undefined)
-  const normalizedPaths = paths?.map((p) => ({
-    ...p,
-    description: p.description ?? undefined,
-    level: p.level ?? undefined,
-    estimated_weeks: p.estimated_weeks ?? undefined,
-    featured: p.featured ?? undefined,
-    tags: p.tags ?? undefined,
-  }));
+  if (error) {
+    console.error('Error fetching paths:', error)
+  }
+
+  const normalizedPaths = paths?.map(path => ({
+    ...path,
+    description: path.description || undefined,
+    level: path.level || undefined,
+    estimated_weeks: path.estimated_weeks || undefined,
+    tags: path.tags || [],
+  })) || []
 
   return (
-    <>
+    <div className="min-h-screen bg-background">
       <Header />
-      <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-        {/* Hero */}
-        <section className="max-w-7xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-            SelfPace
+      
+      <main className="container mx-auto px-4 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
+            Master Your Tech Journey
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-            Learn anything at your own speed. Curated paths with the best free YouTube + Coursera resources.
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Curated learning paths to guide you from beginner to expert in modern technologies
           </p>
-        </section>
+        </div>
 
-        {/* Search + Grid */}
-        <section className="max-w-7xl mx-auto px-6 pb-24">
+        <div className="max-w-2xl mx-auto mb-12">
           <SearchBar />
-          
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {normalizedPaths?.length === 0 && (
-              <p className="col-span-full text-center text-gray-500 text-lg py-20">
-                No paths yet — let’s add some in Supabase!
-              </p>
-            )}
-            {normalizedPaths?.map((path) => (
+        </div>
+
+        {normalizedPaths.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {normalizedPaths.map((path) => (
               <PathCard key={path.id} path={path} />
             ))}
           </div>
-        </section>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No learning paths found.</p>
+          </div>
+        )}
       </main>
-    </>
-  );
+    </div>
+  )
 }
