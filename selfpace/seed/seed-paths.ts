@@ -1,13 +1,11 @@
-// seed/seed-paths.ts
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://dkpkbixuotqnpgrizydq.supabase.co';  // Your URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrcGtiaXh1b3RxbnBncml6eWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MjUyOTgsImV4cCI6MjA3OTUwMTI5OH0.FWJalbHi6C1KYV4fo5-m1HYCYBMSWbtFyfngrw3of0Q'; // Your anon key
+const SUPABASE_URL = 'https://dkpkbixuotqnpgrizydq.supabase.co';  
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrcGtiaXh1b3RxbnBncml6eWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MjUyOTgsImV4cCI6MjA3OTUwMTI5OH0.FWJalbHi6C1KYV4fo5-m1HYCYBMSWbtFyfngrw3of0Q';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const paths = [
-  // Original 3 (fixed)
   {
     slug: "nginx",
     title: "Nginx from Zero to Hero",
@@ -47,7 +45,6 @@ const paths = [
       { title: "Grokking the System Design Interview", type: "article", url: "https://www.educative.io/courses/grokking-the-system-design-interview", why: "Interactive + visual" }
     ]
   },
-  // New 12 (all verified)
   {
     slug: "python-beginner",
     title: "Python for Beginners",
