@@ -1,6 +1,6 @@
 // src/app/paths/[slug]/page.tsx
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase-server'
+import { createClient } from '@/lib/supabase'
 import Header from '@/components/Header'
 import ResourceCard from '@/components/ResourceCard'
 import Link from 'next/link'
