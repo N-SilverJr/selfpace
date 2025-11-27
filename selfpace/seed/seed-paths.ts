@@ -15,7 +15,7 @@ const paths = [
     tags: ["devops", "linux", "web-server"],
     featured: true,
     resources: [
-      { title: "NGINX Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI", duration: "25m", why: "Clear beginner intro from NetworkChuck" },
+      { title: "NGINX Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI", duration: "51m", why: "Clear beginner intro from Freecodecamp" },
       { title: "Nginx Essentials for Web Developers", type: "article", url: "https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04", why: "Practical guide" }
     ]
   },
@@ -41,7 +41,7 @@ const paths = [
     tags: ["interviews", "architecture", "scalability"],
     featured: false,
     resources: [
-      { title: "System Design Interview Full Course", type: "youtube", url: "https://www.youtube.com/watch?v=UzLMhqg3_Ww", duration: "4h", why: "Gaurav Sen's comprehensive guide" },
+      { title: "System Design Interview Full Course", type: "youtube", url: "https://www.youtube.com/watch?v=F2FmTdLtb_4", duration: "1h", why: "FreeCodeCamp's comprehensive guide" },
       { title: "Grokking the System Design Interview", type: "article", url: "https://www.educative.io/courses/grokking-the-system-design-interview", why: "Interactive + visual" }
     ]
   },
@@ -55,7 +55,7 @@ const paths = [
     featured: true,
     resources: [
       { title: "Python for Everybody", type: "coursera", url: "https://www.coursera.org/specializations/python", why: "Best free Python course" },
-      { title: "Python Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc", duration: "6h", why: "Corey Schafer's excellent tutorial" }
+      { title: "Python Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc", duration: "6h", why: "Programing with Mosh's excellent tutorial" }
     ]
   },
   {
@@ -80,7 +80,7 @@ const paths = [
     tags: ["react", "frontend", "nextjs"],
     featured: true,
     resources: [
-      { title: "React Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=SqcY0GlETPk", duration: "3h", why: "Perfect intro" },
+      { title: "React Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=SqcY0GlETPk", duration: "1h 20m", why: "Perfect intro" },
       { title: "Advanced React: Design System, Patterns, Performance", type: "article", url: "https://www.udemy.com/course/advanced-react/", why: "Real-world patterns" }
     ]
   },
@@ -93,7 +93,7 @@ const paths = [
     tags: ["aws", "cloud", "certification"],
     featured: true,
     resources: [
-      { title: "AWS Certified Cloud Practitioner 2025 FULL COURSE", type: "youtube", url: "https://www.youtube.com/watch?v=SpfO55NPhx8", duration: "10h", why: "Andrew Brown's updated 2025 course" },
+      { title: "AWS Certified Cloud Practitioner 2025 FULL COURSE", type: "youtube", url: "https://www.youtube.com/watch?v=SpfO55NPhx8", duration: "3h", why: "ClayDesk updated 2025 course" },
       { title: "AWS Cloud Practitioner Essentials", type: "coursera", url: "https://www.coursera.org/learn/aws-cloud-practitioner-essentials", why: "Official AWS training" }
     ]
   },
@@ -119,8 +119,8 @@ const paths = [
     tags: ["design", "ui", "ux", "figma"],
     featured: false,
     resources: [
-      { title: "UI/UX Design for Developers Full Course", type: "youtube", url: "https://www.youtube.com/watch?v=1N9pd5fB9sQ", duration: "6h", why: "Gary Simon's developer-focused tutorial" },
-      { title: "Figma Tutorial for Beginners 2025", type: "youtube", url: "https://www.youtube.com/watch?v=yp3tNAcikq4", duration: "1h", why: "Free Figma mastery" }
+      { title: "UI/UX Design for Developers Full Course", type: "youtube", url: "https://www.youtube.com/watch?v=c9Wg6Cb_YlU", duration: "1h 30m", why: "Freecodecamp's developer-focused tutorial" },
+      { title: "Figma Tutorial for Beginners 2025", type: "youtube", url: "https://www.youtube.com/watch?v=D56hs0Twfco", duration: "3h", why: "Free Figma mastery" }
     ]
   },
   {
@@ -146,7 +146,7 @@ const paths = [
     featured: false,
     resources: [
       { title: "Applied Data Science with Python Specialization", type: "coursera", url: "https://www.coursera.org/specializations/data-science-python", why: "Johns Hopkins" },
-      { title: "Pandas Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=vmEHCJofslg", duration: "5h", why: "Core libraries" }
+      { title: "Pandas Tutorial for Beginners", type: "youtube", url: "https://www.youtube.com/watch?v=vmEHCJofslg", duration: "1h", why: "Core libraries" }
     ]
   },
   {
@@ -158,7 +158,7 @@ const paths = [
     tags: ["linux", "bash", "devops"],
     featured: false,
     resources: [
-      { title: "Bash Scripting Tutorial for Beginners 2025", type: "youtube", url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4", duration: "3h", why: "NetworkChuck's automation guide" },
+      { title: "Bash Scripting Tutorial for Beginners 2025", type: "youtube", url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4", duration: "1h", why: "Freecodecamp automation guide" },
       { title: "Linux Journey", type: "article", url: "https://linuxjourney.com/", why: "Free interactive" }
     ]
   },
@@ -171,8 +171,8 @@ const paths = [
     tags: ["career", "interview", "job"],
     featured: true,
     resources: [
-      { title: "How to Kickstart Your Tech Career in 2025 (African Context)", type: "youtube", url: "https://www.youtube.com/watch?v=yp3tNAcikq4", duration: "2h", why: "Ascent Tech Hub's guide for African youth" },
-      { title: "How to Build a Portfolio Website", type: "article", url: "https://www.freecodecamp.org/news/how-to-build-a-portfolio-website/", why: "Step-by-step" }
+      { title: "How to Kickstart Your Tech Career in 2025 (African Context)", type: "youtube", url: "https://www.youtube.com/watch?v=qiQR5rTSshw", duration: "9h", why: "Freecodecamp gives an insight on proper Networking" },
+      { title: "How to Build a Portfolio Website", type: "article", url: "https://www.w3schools.com/howto/howto_website_create_portfolio.asp", why: "Step-by-step" }
     ]
   }
 ];
