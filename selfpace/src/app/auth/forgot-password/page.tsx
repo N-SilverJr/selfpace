@@ -3,7 +3,7 @@ import AuthForm from '@/components/AuthForm';
 export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
-      <AuthForm defaultMode="forgot" />
+      <AuthForm defaultMode="signin" />
     </div>
   );
 }
