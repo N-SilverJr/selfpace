@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server'
 export async function proxy(req: NextRequest) {
   const res = NextResponse.next()
 
-  // Skip auth routes
+  // Skip auth routes to avoid loops
   if (req.nextUrl.pathname.startsWith('/auth/')) {
     return res
   }
