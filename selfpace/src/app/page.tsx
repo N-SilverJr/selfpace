@@ -1,4 +1,5 @@
 // src/app/page.tsx
+import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase-server'
 import Header from '@/components/Header'
 import PathCard from '@/components/PathCard'
@@ -9,27 +10,25 @@ export const revalidate = 60
 export default async function Home() {
   const supabase = await createClient()
 
-  const { data: paths, error } = await supabase
+  const { data: paths } = await supabase
     .from('paths')
     .select('*')
     .order('featured', { ascending: false })
     .order('title')
 
-  if (error) {
-    console.error('Error fetching paths:', error)
-  }
-
-  const normalizedPaths = paths?.map(path => ({
+  const normalizedPaths = (paths || []).map(path => ({
     ...path,
     description: path.description || undefined,
     level: path.level || undefined,
     estimated_weeks: path.estimated_weeks || undefined,
     tags: path.tags || [],
-  })) || []
+  }))
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-black transition-colors duration-500">
-      <Header />
+      <Suspense fallback={<div className="min-h-screen bg-white dark:bg-gray-950" />}>
+        <Header />
+      </Suspense>
 
       <main className="container mx-auto px-4 py-12">
         {/* Hero */}
@@ -44,21 +43,17 @@ export default async function Home() {
 
         {/* Search */}
         <div className="max-w-2xl mx-auto mb-16">
-          <SearchBar />
+          <Suspense fallback={<div className="h-12" />}>
+            <SearchBar />
+          </Suspense>
         </div>
 
         {/* Grid */}
-        {normalizedPaths.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {normalizedPaths.map((path) => (
-              <PathCard key={path.id} path={path} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <p className="text-lg text-gray-500 dark:text-gray-400">No learning paths found.</p>
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {normalizedPaths.map((path) => (
+            <PathCard key={path.id} path={path} />
+          ))}
+        </div>
       </main>
     </div>
   )
