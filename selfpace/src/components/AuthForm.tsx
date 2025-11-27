@@ -1,7 +1,7 @@
 'use client';
 
 import { createClient } from '@/lib/supabase-client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 
 type AuthMode = 'signin' | 'signup';
@@ -21,6 +21,17 @@ export default function AuthForm({
 
   const supabase = createClient();
 
+  // KEY FIX: Check session on mount and redirect if logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && redirectTo !== '/') {
+        window.location.href = redirectTo;
+      }
+    };
+    checkSession();
+  }, [redirectTo, supabase]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -35,7 +46,7 @@ export default function AuthForm({
       if (error) {
         setMessage(error.message);
       } else {
-        // KEY FIX: Force redirect to the original path
+        // Force redirect to original path
         window.location.href = redirectTo;
       }
     } else {
@@ -61,7 +72,7 @@ export default function AuthForm({
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
       },
     });
   };
