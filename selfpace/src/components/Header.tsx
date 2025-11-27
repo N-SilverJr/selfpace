@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase-server';
+import { createClient } from '@/lib/supabase-client';
 import { LogOut } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
