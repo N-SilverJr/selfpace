@@ -1,173 +1,116 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { createBrowserSupabaseClient } from '@/lib/supabase-client'
+import { createClient } from '@/lib/supabase-client';
+import { useState } from 'react';
+import { Loader2, LogIn, Mail } from 'lucide-react';
 
-type AuthMode = 'signin' | 'signup' | 'forgot'
+type AuthMode = 'signin' | 'signup';
 
-interface AuthFormProps {
-  defaultMode?: AuthMode
-}
+export default function AuthForm({ 
+  defaultMode = 'signin',
+  redirectTo = '/'
+}: { 
+  defaultMode?: AuthMode;
+  redirectTo?: string;
+}) {
+  const [mode, setMode] = useState<AuthMode>(defaultMode);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-export default function AuthForm({ defaultMode = 'signin' }: AuthFormProps) {
-  const [mode, setMode] = useState<AuthMode>(defaultMode)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
-  
-  const supabase = createBrowserSupabaseClient()
+  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    try {
-      if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${location.origin}/auth/callback`,
-          },
-        })
-        if (error) throw error
-        setMessage({
-          type: 'success',
-          text: 'Check your email for the confirmation link!',
-        })
-      } else if (mode === 'signin') {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        if (error) throw error
-        // Redirect will happen automatically
-        window.location.href = '/'
-      } else if (mode === 'forgot') {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${location.origin}/auth/reset-password`,
-        })
-        if (error) throw error
-        setMessage({
-          type: 'success',
-          text: 'Check your email for the password reset link!',
-        })
-      }
-    } catch (error: any) {
-      setMessage({
-        type: 'error',
-        text: error.message,
-      })
-    } finally {
-      setLoading(false)
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      window.location.href = redirectTo;  // Client-side redirect after login
     }
-  }
+
+    setLoading(false);
+  };
+
+  const handleGoogle = async () => {
+    const origin = window.location.origin;
+    const callbackUrl = `${origin}/auth/callback`;
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: callbackUrl,
+      },
+    });
+  };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+    <div className="w-full max-w-md">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800">
         <h2 className="text-2xl font-bold text-center mb-6">
-          {mode === 'signin' && 'Sign In'}
-          {mode === 'signup' && 'Create Account'}
-          {mode === 'forgot' && 'Reset Password'}
+          {mode === 'signin' ? 'Welcome back' : 'Create account'}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="your@email.com"
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+          />
 
-          {mode !== 'forgot' && (
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="••••••••"
-                minLength={6}
-              />
-            </div>
-          )}
-
-          {message && (
-            <div
-              className={`p-3 rounded-md ${
-                message.type === 'success'
-                  ? 'bg-green-50 text-green-800 border border-green-200'
-                  : 'bg-red-50 text-red-800 border border-red-200'
-              }`}
-            >
-              {message.text}
-            </div>
+          {error && (
+            <p className="text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {loading ? 'Loading...' : 
-             mode === 'signin' ? 'Sign In' :
-             mode === 'signup' ? 'Create Account' : 'Send Reset Link'}
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
           </button>
         </form>
 
-        <div className="mt-6 text-center space-y-2">
-          {mode === 'signin' && (
-            <>
-              <button
-                onClick={() => setMode('forgot')}
-                className="block text-sm text-blue-600 hover:text-blue-800"
-              >
-                Forgot your password?
-              </button>
-              <button
-                onClick={() => setMode('signup')}
-                className="block text-sm text-gray-600 hover:text-gray-800"
-              >
-                Don't have an account? Sign up
-              </button>
-            </>
-          )}
-
-          {mode === 'signup' && (
-            <button
-              onClick={() => setMode('signin')}
-              className="block text-sm text-gray-600 hover:text-gray-800"
-            >
-              Already have an account? Sign in
-            </button>
-          )}
-
-          {mode === 'forgot' && (
-            <button
-              onClick={() => setMode('signin')}
-              className="block text-sm text-gray-600 hover:text-gray-800"
-            >
-              Back to sign in
-            </button>
-          )}
+        <div className="mt-6">
+          <button
+            onClick={handleGoogle}
+            className="w-full py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center justify-center gap-3"
+          >
+            <LogIn className="w-5 h-5" />
+            Continue with Google
+          </button>
         </div>
+
+        <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
+          {mode === 'signin' ? "Don't have an account? " : "Already have an account? "}
+          <button
+            type="button"
+            onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
+            className="text-indigo-600 hover:underline font-medium"
+          >
+            {mode === 'signin' ? 'Sign up' : 'Sign in'}
+          </button>
+        </p>
       </div>
     </div>
-  )
+  );
 }
