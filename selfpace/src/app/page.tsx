@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import PathCard from '@/components/PathCard';
 import SearchBar from '@/components/SearchBar';
 
-export const revalidate = 60;
 
 export default function Home() {
   const [paths, setPaths] = useState<any[]>([]);
