@@ -1,4 +1,3 @@
-// src/components/AuthForm.tsx
 'use client';
 
 import { createClient } from '@/lib/supabase-client';
@@ -28,20 +27,20 @@ export default function AuthForm({
     setMessage('');
 
     if (mode === 'signin') {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const { error } = await supabase.auth.signInWithPassword({ 
+        email, 
+        password 
       });
 
       if (error) {
         setMessage(error.message);
       } else {
-        // This is the KEY FIX — manual redirect after login
+        // KEY FIX: Force redirect to the original path
         window.location.href = redirectTo;
       }
     } else {
-      const { error } = await supabase.auth.signUp({
-        email,
+      const { error } = await supabase.auth.signUp({ 
+        email, 
         password,
         options: {
           emailRedirectTo: window.location.origin,
@@ -51,7 +50,7 @@ export default function AuthForm({
       if (error) {
         setMessage(error.message);
       } else {
-        setMessage('Check your email for confirmation link!');
+        setMessage('Check your email for confirmation!');
       }
     }
 
@@ -69,7 +68,7 @@ export default function AuthForm({
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
           {mode === 'signin' ? 'Welcome Back' : 'Create Account'}
         </h2>
@@ -93,7 +92,7 @@ export default function AuthForm({
           />
 
           {message && (
-            <div className={`text-center text-sm font-medium ${message.includes('error') || message.includes('Check your email') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+            <div className={`text-center text-sm font-medium ${message.includes('error') ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
               {message}
             </div>
           )}
