@@ -1,6 +1,6 @@
 // src/app/page.tsx
 'use client';
-import { createClient } from '@/lib/supabase';
+import { createClient } from '@/server/supabase';
 import Header from '@/components/Header';
 import PathCard from '@/components/PathCard';
 import SearchBar from '@/components/SearchBar';

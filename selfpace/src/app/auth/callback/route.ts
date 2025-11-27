@@ -1,5 +1,5 @@
 // src/app/auth/callback/route.ts
-import { createClient } from '@/lib/supabase';
+import { createClient } from '@/server/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
