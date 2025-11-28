@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "buildCommand": "cd selfpace && npm run build",
-  "outputDirectory": "selfpace/.next",
-  "installCommand": "cd selfpace && npm install"
-}
