@@ -24,10 +24,8 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session
   const { data: { session } } = await supabase.auth.getSession()
 
-  // Protect learning paths routes
   if (request.nextUrl.pathname.startsWith('/paths/') && !session) {
     const redirectUrl = new URL('/auth/signin', request.url)
     redirectUrl.searchParams.set('redirect_to', request.nextUrl.pathname)
@@ -39,6 +37,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

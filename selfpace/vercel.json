@@ -2,16 +2,5 @@
   "version": 2,
   "buildCommand": "cd selfpace && npm run build",
   "outputDirectory": "selfpace/.next",
-  "installCommand": "cd selfpace && npm install",
-  "functions": {
-    "selfpace/middleware.ts": {
-      "maxDuration": 10
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/selfpace/index.html"
-    }
-  ]
+  "installCommand": "cd selfpace && npm install"
 }
